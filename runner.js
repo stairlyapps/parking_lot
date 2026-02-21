@@ -1,4 +1,4 @@
-const { ParkingLotManager } = require("./parking_lot_core");
+const { ParkingLotManager, Vehicle, PerHourPricingStrategy, findNearestSpotStrategy } = require("./parking_lot_core");
 
 function main(){
     //initialise ParkingLotManager
@@ -14,12 +14,14 @@ function main(){
         'TRUCK':1
      }   
     ]
-    const parkingLotMgr = new ParkingLotManager(2,floorConfig,"NON_FESTIVE" );
+    const pricingStrategy = new PerHourPricingStrategy();
+    const assignmentStrategy = new findNearestSpotStrategy();
+    const parkingLotMgr = new ParkingLotManager(2,floorConfig,pricingStrategy, assignmentStrategy );
     parkingLotMgr.init();
 
     parkingLotMgr.printCurrentParkingLot();
 
-    const vehicle = parkingLotMgr.createVehicle("BIKE", "HR 26");
+    const vehicle = new Vehicle("BIKE", "HR 26");
     console.log("vehicle",vehicle);
     const tckt = parkingLotMgr.parkVehicle(vehicle);
     console.log("tckt",tckt);

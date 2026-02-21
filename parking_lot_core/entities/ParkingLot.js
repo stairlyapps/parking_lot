@@ -1,3 +1,5 @@
+import { Spot } from "./Spot.js";
+
 export class ParkingLot{
 
     /*
@@ -28,6 +30,20 @@ export class ParkingLot{
         this.noOfFloor = noOfFloor;
         // this.floorConfig = floorConfig;
         this.floors = {};
+        // for(let i=0;i<floorConfig.length;i++){
+        //     let k = `floorNo_${i}`; // floorNo_1
+        //     this.floors[k] = {}; // floorNo_1 = {}
+        //     let item = floorConfig[i]; // bike : 10, car : 10, truck: 5
+        //     for(let it in item){
+        //         let it_count = item[it]; //10
+        //         this.floors[k][it] = [];
+        //         for(let j=0;j<it_count;j++){
+        //             this.floors[k][it].push(-1);
+        //         }
+        //     }
+        // }
+
+
         for(let i=0;i<floorConfig.length;i++){
             let k = `floorNo_${i}`; // floorNo_1
             this.floors[k] = {}; // floorNo_1 = {}
@@ -36,52 +52,22 @@ export class ParkingLot{
                 let it_count = item[it]; //10
                 this.floors[k][it] = [];
                 for(let j=0;j<it_count;j++){
-                    this.floors[k][it].push(-1);
+                    let spot = new Spot(`F${i}-S${j}`,)
+                    this.floors[k][it].push(spot);
                 }
             }
         }
     }
 
-    findNearestSpot(Vehicle){
-        let fl = null, idx = null;
-
-        console.log("----",Vehicle);
-
-        let vehicleType = Vehicle.getVehicleType();
-        console.log("----",vehicleType);
-        for(let f in this.floors){
-            for(let j=0;j<this.floors[f][vehicleType].length;j++){
-                if(this.floors[f][vehicleType][j] == -1){
-                    fl = f;
-                    idx = j;
-                    return `${fl}-${idx}`
-                }
-            }
-        }
-        return null;
-    }
-
-    parkVehicle(Vehicle, spotId){
-        console.log("----",Vehicle);
-        let vehicleType = Vehicle.getVehicleType();
-        let vehicleNo = Vehicle.getVehicleNo();
-        let {fl,idx} = this.getFloorAndSpotFromSpotId(spotId);
-        if(this.floors[fl][vehicleType][idx] == -1){
-            this.floors[fl][vehicleType][idx] = vehicleNo;
+    parkVehicle(vehicle, spot){
+        if(!spot.isSpotOccupied()){
+            spot.assignVehicle(vehicle);
             return true;
         }
         return false;
     }
 
-    getFloorAndSpotFromSpotId(spotId){
-        let [fl,idx] = spotId.split("-");
-        return {fl,idx};
-    }
-
-    freeSpot(spotId, vehicleType){
-        let {fl,idx} = this.getFloorAndSpotFromSpotId(spotId);
-        this.floors[fl][vehicleType][idx] = -1;
-    }
+    
 
 
 }

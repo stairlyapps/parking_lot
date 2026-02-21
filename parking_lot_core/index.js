@@ -10,58 +10,44 @@ import { Vehicle } from "./entities/Vehicle.js";
 
 export class ParkingLotManager{
 
-    constructor(noOfFloor,floorConfig,pricingStrategyType ){
+    constructor(noOfFloor,floorConfig, pricingStrategy, assingmentStrategy){
         this.noOfFloor = noOfFloor;
         this.floorConfig = floorConfig;
         this.parkingLot = undefined;
-        this.pricingStrategyType = pricingStrategyType;
+        this.pricingStrategy = pricingStrategy;
+        this.assingmentStrategy = assingmentStrategy;
     }
 
     init(){
        this.parkingLot = new ParkingLot(this.noOfFloor, this.floorConfig);
-       if(this.pricingStrategyType == "NON_FESTIVE"){
-        this.pricingStrategy = new PerHourPricingStrategy();
-       } else if(this.pricingStrategyType == "FESTIVE"){
-        this.pricingStrategy = new FestivePricingStrategy();
-       }
     }
 
-    setPricingStrategy(pricingStrategyType){
-        this.pricingStrategyType = pricingStrategyType;
-        if(this.pricingStrategyType == "NON_FESTIVE"){
-        this.pricingStrategy = new PerHourPricingStrategy();
-       } else if(this.pricingStrategyType == "FESTIVE"){
-        this.pricingStrategy = new FestivePricingStrategy();
-       }
-    }
-
-    createVehicle(vehicleType,vehicleNo){
-        return new Vehicle(vehicleType, vehicleNo);
+    setPricingStrategy(pricingStrategy){
+        this.pricingStrategy = pricingStrategy;
     }
 
 
     parkVehicle(vehicle){
         //find nearest spot
         // let vehicleType = vehicle.getVehicleType();
-        let spotId = this.parkingLot.findNearestSpot(vehicle);
-        if(!spotId){
+        let spot= this.assingmentStrategy.findSpot(this.parkingLot, vehicle);
+        if(!spot){
             return false;
         }
         //park vehicle
-        let isVehicleParked = this.parkingLot.parkVehicle(vehicle, spotId);
+        let isVehicleParked = this.parkingLot.parkVehicle(vehicle, spot);
         if(!isVehicleParked){
             return false;
         }
 
-        const tckt = new Ticket(vehicle, spotId);
+        const tckt = new Ticket(vehicle, spot);
 
         return tckt;
     }
 
     exitVehicle(tckt){
-        let spotId = tckt.getSpotId();
-        let vehicleType = tckt.getVehicle().getVehicleType();
-        this.parkingLot.freeSpot(spotId,vehicleType);
+        let spot = tckt.getSpot();
+        spot.freeSpot();
         return tckt.calcFee(this.pricingStrategy);
     }
 
@@ -71,6 +57,11 @@ export class ParkingLotManager{
 
 
 }
+
+export { Vehicle } from "./entities/Vehicle.js";
+export { PerHourPricingStrategy, FestivePricingStrategy } from "./entities/PricingStrategy.js";
+
+export { AssignmentStrategy, findFarthestSpotStrategy, findNearestSpotStrategy } from "./entities/AssignmentStrategy.js";
 
 
 

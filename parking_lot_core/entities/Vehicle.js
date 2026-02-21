@@ -14,6 +14,14 @@ export class Vehicle {
         return this.vehicleType;
     }
 
+    getVehicleCategory() {
+        return this.vehicleCategory;
+    }
+
+    getVehicleBaseRate() {
+        return this.vehicleBaseRate;
+    }
+
     getVehicleNo() {
         return this.vehicleNo;
     }
@@ -22,6 +30,8 @@ export class Vehicle {
 
 export class Bike extends Vehicle {
     vehicleType = "BIKE";
+    vehicleCategory = "TWO_WHEELER"
+    vehicleBaseRate = 10;
     constructor(vehicleNo) {
         super();
         this.vehicleNo = vehicleNo;
@@ -33,6 +43,8 @@ export class Bike extends Vehicle {
 
 export class Car extends Vehicle {
     vehicleType = "CAR";
+    vehicleCategory = "FOUR_WHEELER"
+    vehicleBaseRate = 20;
     constructor(vehicleNo) {
         super();
         this.vehicleNo = vehicleNo;
@@ -44,6 +56,8 @@ export class Car extends Vehicle {
 
 export class Truck extends Vehicle {
     vehicleType = "TRUCK";
+    vehicleCategory = "FOUR_WHEELER"
+    vehicleBaseRate = 40;
     constructor(vehicleNo) {
         super();
         this.vehicleNo = vehicleNo;

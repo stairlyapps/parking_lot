@@ -2,16 +2,12 @@ export class Ticket{
 
     max = 10000;
 
-    constructor(vehicle, spotId){
+    constructor(vehicle, spot){
         this.id = Math.floor(Math.random() * this.max);
         // this.vehicleNo = Vehicle.getVehicleNo();
         this.vehicle = vehicle;
-        this.spotId = spotId;
+        this.spot = spot;
         this.entryTime = Date.now();
-    }
-
-    getSpotId(){
-        return this.spotId;
     }
 
     calcFee(pricingStrategy){
@@ -26,6 +22,10 @@ export class Ticket{
 
     getVehicle(){
         return this.vehicle;
+    }
+
+    getSpot(){
+        return this.spot;
     }
 
 
