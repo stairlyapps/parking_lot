@@ -1,4 +1,4 @@
-const { ParkingLotManager, Vehicle, PerHourPricingStrategy, findNearestSpotStrategy } = require("./parking_lot_core");
+const { ParkingLotManager, Vehicle, PerHourPricingStrategy, findNearestSpotStrategy, VehicleFactory } = require("./parking_lot_core");
 
 function main(){
     //initialise ParkingLotManager
@@ -21,7 +21,7 @@ function main(){
 
     parkingLotMgr.printCurrentParkingLot();
 
-    const vehicle = new Vehicle("BIKE", "HR 26");
+    const vehicle = VehicleFactory.create("BIKE", "HR 26");
     console.log("vehicle",vehicle);
     const tckt = parkingLotMgr.parkVehicle(vehicle);
     console.log("tckt",tckt);

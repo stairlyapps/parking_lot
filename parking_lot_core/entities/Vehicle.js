@@ -1,13 +1,9 @@
 export class Vehicle {
-    constructor(vehicleType, vehicleNo) {
-        if (vehicleType == "BIKE") {
-            return new Bike(vehicleNo);
-        } else if (vehicleType == "CAR") {
-            return new Car(vehicleNo);
-        } else if (vehicleType == "TRUCK") {
-            return new Truck(vehicleNo);
-        }
-
+    constructor(vehicleType, vehicleNo, vehicleBaseRate, vehicleCategory) {
+        this.vehicleType = vehicleType;
+        this.vehicleNo = vehicleNo;
+        this.vehicleBaseRate = vehicleBaseRate;
+        this.vehicleCategory = vehicleCategory;
     }
 
     getVehicleType() {

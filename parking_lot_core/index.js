@@ -59,6 +59,7 @@ export class ParkingLotManager{
 }
 
 export { Vehicle } from "./entities/Vehicle.js";
+export {VehicleFactory} from "./entities/VehicleFactory.js";
 export { PerHourPricingStrategy, FestivePricingStrategy } from "./entities/PricingStrategy.js";
 
 export { AssignmentStrategy, findFarthestSpotStrategy, findNearestSpotStrategy } from "./entities/AssignmentStrategy.js";
